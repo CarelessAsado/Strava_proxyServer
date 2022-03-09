@@ -7,9 +7,7 @@ function errorHandler(dispatch, error, etapa) {
     error.message === "Network Error" ||
     error.message === "Failed to fetch"
   ) {
-    return dispatch(
-      failureFetchingActivities("Hubo un problema en la conexión.")
-    );
+    return dispatch(failureFetchingActivities(error.message));
   }
   dispatch(failureFetchingActivities(error?.response?.data?.message));
 }
