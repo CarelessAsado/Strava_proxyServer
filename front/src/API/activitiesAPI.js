@@ -3,6 +3,11 @@ import {
   successFetchingActivities,
   successFetchingStats,
 } from "../Context/activitiesSlice";
+import {
+  cleanseMyData,
+  produceStats,
+  getLast3Months,
+} from "../utils/timeFunctions";
 import { errorHandler } from "./errorHandler";
 import { axiosStrava } from "./models";
 
@@ -10,10 +15,8 @@ export const stravaAPI = {
   getUser: async function (dispatch) {
     try {
       const { data } = await axiosStrava.get();
-      console.log(data);
       return data;
     } catch (error) {
-      //armar el ERROR HANDLER p/Axios
       errorHandler(dispatch, error, "getuser/athlete");
     }
   },
@@ -25,12 +28,9 @@ export const stravaAPI = {
         "/athlete/activities?after=" + oneMonthAgo
       );
       const cleansedData = cleanseMyData(data);
-      console.log(cleansedData, "data limpia");
       dispatch(successFetchingActivities(cleansedData));
-      console.log(data, "DATTA Q VUELVE DE AXIOS");
       return data;
     } catch (error) {
-      //armar el ERROR HANDLER p/Axios
       errorHandler(dispatch, error, "getACTIVITIES");
     }
   },
@@ -43,12 +43,9 @@ export const stravaAPI = {
         `/athlete/activities?after=${after}&before=${before}`
       );
       const cleansedData = cleanseMyData(data);
-      console.log(cleansedData, "data limpia");
       dispatch(successFetchingActivities(cleansedData));
-      console.log(data, "DATTA Q VUELVE DE AXIOS");
       return data;
     } catch (error) {
-      //armar el ERROR HANDLER p/Axios
       errorHandler(dispatch, error, "get PER MONTH ACTIVITIES");
     }
   },
@@ -56,74 +53,15 @@ export const stravaAPI = {
     dispatch(beginFetchingActivities());
     try {
       const epoch = getLast3Months();
-      console.log(epoch);
       const { data } = await axiosStrava.get(
         `/athlete/activities?after=${epoch}`
       );
       const cleansedData = cleanseMyData(data);
       const stats = produceStats(cleansedData);
       dispatch(successFetchingStats(stats));
-      console.log(data, "DATTA Q VUELVE DE AXIOS");
       return data;
     } catch (error) {
-      //armar el ERROR HANDLER p/Axios
       errorHandler(dispatch, error, "getMONTH STATS");
     }
   },
 };
-
-function getLast3Months() {
-  const month = new Date().getMonth();
-  const year = new Date().getFullYear();
-  var d = new Date(year, month);
-  d.setMonth(d.getMonth() - 2);
-  //STRAVA TOMA SEGUNDOS, NO MILISEGUNDOS
-  return d.getTime() / 1000;
-}
-
-function cleanseMyData(data) {
-  return data.map((i) => {
-    const {
-      distance,
-      name,
-      elapsed_time,
-      start_date_local,
-      total_elevation_gain,
-      id,
-    } = i;
-    return {
-      distance,
-      name,
-      elapsed_time,
-      start_date_local,
-      total_elevation_gain,
-      id,
-    };
-  });
-}
-function produceStats(data) {
-  const finalProduct = data.reduce((total, act) => {
-    const { distance, elapsed_time, total_elevation_gain, id } = act;
-    const year = new Date(act.start_date_local).getFullYear();
-    const month = new Date(act.start_date_local).toLocaleString("en", {
-      month: "long",
-    });
-    if (total[month] === undefined) {
-      total[month] = {
-        distance,
-        total_elevation_gain,
-        id,
-        elapsed_time,
-        totalAct: 1,
-        year,
-      };
-    } else {
-      total[month].distance += distance;
-      total[month].elapsed_time += elapsed_time;
-      total[month].total_elevation_gain += total_elevation_gain;
-      total[month].totalAct++;
-    }
-    return total;
-  }, {});
-  return Object.entries(finalProduct);
-}
