@@ -8,7 +8,6 @@ export const useInterceptor = () => {
       (response) => {
         return response;
       },
-      /*---le agrego async ya q voy a potencialmente llamar al refresh api*/
       async (error) => {
         console.log(
           "%cEstamos adentro del interceptor" + JSON.stringify(error),
