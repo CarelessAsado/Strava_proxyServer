@@ -7,6 +7,7 @@ export const SingleStat = ({
   year,
   total_elevation_gain,
   month,
+  totalAct,
 }) => {
   return (
     <div className="statItem">
@@ -20,6 +21,9 @@ export const SingleStat = ({
         <div className="distance div">Distance: {distance / 1000} km</div>
         <div className="elevation div">
           Elevation: {total_elevation_gain} mts
+        </div>
+        <div className="totalActivities div">
+          Number of activities: {totalAct}
         </div>
       </Link>
     </div>

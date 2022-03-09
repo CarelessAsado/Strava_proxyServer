@@ -22,6 +22,7 @@ export const useInterceptor = () => {
         ) {
           /*agrego una property nueva p/evitar un infinite loop*/
           previousRequest.sent = true;
+          console.log("%cinterceptamos y hacemos api call al proxy server");
 
           const data = await refreshTokenAPI.refreshToken();
           console.log("%cGUARDAR DATA", "font-weight:bold");
@@ -32,6 +33,7 @@ export const useInterceptor = () => {
             previousRequest.headers[headersName] =
               data.token_type + " " + data.access_token;
           }
+          console.log("%cinterceptamos y hacemos api call al proxy server");
           return axiosStrava(previousRequest);
         }
         /*----ESTO ERA PARA LOGUEAR EN CASO DE REFRESH TOKEN VENCIDO, al final preferí devolver el error al errorHandler y redirigir ahi*/
@@ -42,6 +44,7 @@ export const useInterceptor = () => {
           return logout(dispatch);
         } */
         /*---este error dsp termina dentro del errorHandler*/
+        console.log(error);
         return Promise.reject(error);
       }
     )

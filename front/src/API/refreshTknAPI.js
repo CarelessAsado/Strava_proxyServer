@@ -17,8 +17,9 @@ export const refreshTokenAPI = {
       /*-------Podria haber puesto el saveItem del localStorage como un useEffect???*/
       return newAccessTkn;
     } catch (error) {
+      console.log(JSON.stringify(error.message));
       console.log(
-        error.response.status,
+        error?.response?.status,
         "en refreshTkn api, ver si el codigo de error es 401 tmb q puede provocar loop"
       );
       /*---devuelvo el error al interceptor, asi dsp se llama al logErrorAPI con la original call, no la del interceptor*/

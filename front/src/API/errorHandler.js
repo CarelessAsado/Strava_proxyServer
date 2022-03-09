@@ -3,14 +3,6 @@ import { failureFetchingActivities } from "../Context/activitiesSlice";
 function errorHandler(dispatch, error, etapa) {
   console.log(JSON.stringify(error));
   console.log("%c" + etapa, "color:red");
-  if (error?.config?.sent) {
-    console.log(
-      "aca es un error de refresh token AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA",
-      error.config
-    );
-    //ver si hago algo dsp
-  }
-
   if (
     error.message === "Network Error" ||
     error.message === "Failed to fetch"
@@ -19,7 +11,7 @@ function errorHandler(dispatch, error, etapa) {
       failureFetchingActivities("Hubo un problema en la conexión.")
     );
   }
-  dispatch(failureFetchingActivities(error?.response?.data));
+  dispatch(failureFetchingActivities(error?.response?.data?.message));
 }
 
 export { errorHandler };

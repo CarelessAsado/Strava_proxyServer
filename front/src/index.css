@@ -19,7 +19,14 @@ a {
   text-decoration: none;
   color: inherit;
 }
-
+.notification.error {
+  color: crimson;
+  font-size: 1.2rem;
+  font-weight: bold;
+  background-color: rgb(250, 208, 216);
+  padding: 10px;
+  border-radius: 10px;
+}
 section#activitiesSection,
 section#monthlyStats {
   max-width: 1200px;

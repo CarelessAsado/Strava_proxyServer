@@ -19,16 +19,14 @@ export const IndividualMonth = () => {
       <h1>
         Activities on {month} of {year}
       </h1>
-
       <div className="activitiesContainer">
         {error && <div className="notification error">{error}</div>}
-        {loading ? (
-          <h1>Loading...</h1>
-        ) : activities.length > 0 ? (
+        {error || loading ? undefined : activities.length > 0 ? (
           activities.map((i) => <SingleActivity {...i} key={i.id} />)
         ) : (
-          <h2>No activities in the past month.</h2>
+          <h2>No activities on {month}.</h2>
         )}
+        {loading && <h2>Loading...</h2>}
       </div>
       <div className="linksContainer">
         <Link to="/stats">Monthly stats</Link>
