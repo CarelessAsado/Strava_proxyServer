@@ -12,7 +12,7 @@ axiosStrava.defaults.headers[headersName] = "Bearer " + accessToken;
 const proxyServerUrl =
   !process.env.NODE_ENV || process.env.NODE_ENV === "development"
     ? "http://localhost:5000"
-    : "FALTA";
+    : "https://strave-hidemykeys.herokuapp.com/";
 
 const proxyServerAxios = axios.create({ baseURL: proxyServerUrl });
 export { axiosStrava, headersName, proxyServerAxios };
