@@ -23,5 +23,6 @@ mongoose.connect(process.env.MONGODB_URI, (err) => {
     console.log("Server connected at http://localhost:" + port)
   );
 });
+/*------------GET REFRESH AND NEW ACCESS TOKEN------------*/
 const tokenRoute = require("./routes/tokens");
 app.use("/", tokenRoute);
