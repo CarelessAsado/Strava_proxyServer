@@ -8,4 +8,11 @@ const axiosStrava = axios.create({
 const headersName = "Authorization";
 
 axiosStrava.defaults.headers[headersName] = "Bearer " + accessToken;
-export { axiosStrava, headersName };
+
+const proxyServerUrl =
+  !process.env.NODE_ENV || process.env.NODE_ENV === "development"
+    ? "http://localhost:5000"
+    : "FALTA";
+
+const proxyServerAxios = axios.create({ baseURL: proxyServerUrl });
+export { axiosStrava, headersName, proxyServerAxios };
