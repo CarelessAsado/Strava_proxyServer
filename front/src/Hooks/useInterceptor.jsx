@@ -10,7 +10,10 @@ export const useInterceptor = () => {
       },
       /*---le agrego async ya q voy a potencialmente llamar al refresh api*/
       async (error) => {
-        console.log("%cEstamos adentro del interceptor", "font-weight:bold");
+        console.log(
+          "%cEstamos adentro del interceptor" + JSON.stringify(error),
+          "font-weight:bold"
+        );
         const previousRequest = error?.config;
         /*-------OJO Q EL INTERCEPTOR TMB TE INTERCEPTA LAS API/REFRESH RESPONSEs, asi q si devolves un cod 403 de esa call en particular, esa response va a pasar x el conditional de abajo (tiene cod 403, y el .sent todavia no lo pasamos a la response config ya q hay q esperar a q termine la async call para q recien surta efecto) y va a haber un endless loop. Yo cambié el code a 402 en el backend, pero tratar de agregar otro condicional, x ej url, o algo*/
         if (
