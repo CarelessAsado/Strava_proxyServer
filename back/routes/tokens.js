@@ -7,7 +7,6 @@ const router = Router();
 router.get("/", async (req, res) => {
   try {
     const token = await Token.find();
-    console.log(token[0], "oldddddddddddddd");
     const data = await needle("post", getNewTokensUrl + token[0].refresh_token);
     await Token.findByIdAndUpdate(token[0]._id, data.body);
     const { refresh_token, ...rest } = data.body;
