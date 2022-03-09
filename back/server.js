@@ -25,4 +25,11 @@ mongoose.connect(process.env.MONGODB_URI, (err) => {
 });
 /*------------GET REFRESH AND NEW ACCESS TOKEN------------*/
 const tokenRoute = require("./routes/tokens");
-app.use("/", tokenRoute);
+app.use("/", mid, tokenRoute);
+
+function mid(req, res, next) {
+  if (req.headers.origin === currentUrl) {
+    return next();
+  }
+  res.status(403).json("Not authorized to use my proxy server");
+}
