@@ -1,4 +1,5 @@
 import { Link } from "react-router-dom";
+import { secondsToHms } from "../utils/timeFunctions";
 
 export const SingleStat = ({
   distance,
@@ -13,7 +14,9 @@ export const SingleStat = ({
         <h2>
           {month}/{year}
         </h2>
-        <div className="duracion div">Duration: {elapsed_time}</div>
+        <div className="duracion div">
+          Duration: {secondsToHms(elapsed_time)}
+        </div>
         <div className="distance div">Distance: {distance / 1000} km</div>
         <div className="elevation div">
           Elevation: {total_elevation_gain} mts

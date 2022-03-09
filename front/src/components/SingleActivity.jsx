@@ -1,3 +1,5 @@
+import { secondsToHms } from "../utils/timeFunctions";
+
 export const SingleActivity = ({
   distance,
   name,
@@ -11,7 +13,7 @@ export const SingleActivity = ({
       <div className="date div">
         Date: {new Date(start_date_local).toLocaleDateString()}
       </div>
-      <div className="duracion div">Duration: {elapsed_time}</div>
+      <div className="duracion div">Duration: {secondsToHms(elapsed_time)}</div>
       <div className="distance div">Distance: {distance / 1000} km</div>
       <div className="elevation div">Elevation: {total_elevation_gain} mts</div>
     </div>
