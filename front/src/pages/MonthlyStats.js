@@ -17,7 +17,6 @@ export const MonthlyStats = () => {
         {error && <div className="notification error">{error}</div>}
         {error || loading ? undefined : stats.length > 0 ? (
           stats.map((i) => {
-            console.log(i[0]);
             return <SingleStat month={i[0]} {...i[1]} key={i[1].id} />;
           })
         ) : (

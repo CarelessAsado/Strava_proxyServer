@@ -9,10 +9,6 @@ export const useInterceptor = () => {
         return response;
       },
       async (error) => {
-        console.log(
-          "%cEstamos adentro del interceptor" + JSON.stringify(error),
-          "font-weight:bold"
-        );
         const previousRequest = error?.config;
         if (error?.response?.status === 401 && !previousRequest?.sent) {
           previousRequest.sent = true;

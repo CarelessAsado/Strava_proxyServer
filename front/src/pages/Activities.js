@@ -11,7 +11,6 @@ export const Activities = () => {
     (state) => state.activities
   );
   useEffect(() => {
-    console.log("segundooo");
     stravaAPI.getActivities(dispatch);
   }, [dispatch]);
   return (

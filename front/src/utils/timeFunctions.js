@@ -12,7 +12,6 @@ function secondsToHms(d) {
   return hDisplay + mDisplay + sDisplay;
 }
 function produceStats(data) {
-  console.log(data.length, "ver q sean 7");
   const finalProduct = data.reduce((total, act) => {
     const { distance, elapsed_time, total_elevation_gain, id } = act;
     const year = new Date(act.start_date).getFullYear();
