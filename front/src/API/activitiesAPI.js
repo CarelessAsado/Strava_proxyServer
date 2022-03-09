@@ -7,6 +7,7 @@ import {
   cleanseMyData,
   produceStats,
   getLast3Months,
+  filterNaughtyMonths,
 } from "../utils/timeFunctions";
 import { errorHandler } from "./errorHandler";
 import { axiosStrava } from "./models";
@@ -38,12 +39,12 @@ export const stravaAPI = {
     dispatch(beginFetchingActivities());
     const after = Date.parse(month + "0" + year) / 1000;
     const before = after + 60 * 60 * 24 * 30;
+    const url = `/athlete/activities?after=${after}&before=${before}`;
     try {
-      const { data } = await axiosStrava.get(
-        `/athlete/activities?after=${after}&before=${before}`
-      );
+      const { data } = await axiosStrava.get(url);
       const cleansedData = cleanseMyData(data);
-      dispatch(successFetchingActivities(cleansedData));
+      const final = filterNaughtyMonths(cleansedData, month);
+      dispatch(successFetchingActivities(final));
       return data;
     } catch (error) {
       errorHandler(dispatch, error, "get PER MONTH ACTIVITIES");

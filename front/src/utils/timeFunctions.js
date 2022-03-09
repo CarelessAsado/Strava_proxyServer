@@ -18,6 +18,7 @@ function produceStats(data) {
     const month = new Date(act.start_date).toLocaleString("en", {
       month: "long",
     });
+
     if (total[month] === undefined) {
       total[month] = {
         distance,
@@ -35,6 +36,7 @@ function produceStats(data) {
     }
     return total;
   }, {});
+
   return Object.entries(finalProduct);
 }
 
@@ -66,4 +68,18 @@ function getLast3Months() {
   //STRAVA TOMA SEGUNDOS, NO MILISEGUNDOS
   return d.getTime() / 1000;
 }
-export { secondsToHms, cleanseMyData, produceStats, getLast3Months };
+function filterNaughtyMonths(data, month) {
+  return data.filter(
+    (i) =>
+      new Date(i.start_date).toLocaleString("en", {
+        month: "long",
+      }) === month
+  );
+}
+export {
+  secondsToHms,
+  cleanseMyData,
+  produceStats,
+  getLast3Months,
+  filterNaughtyMonths,
+};
